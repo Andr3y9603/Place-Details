@@ -1,0 +1,41 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Place Details plugin for Craft CMS 3.x
+ *
+ * Place Details Settings.twig
+ *
+ * @author    Ghiorghiu Andrei
+ * @copyright Copyright (c) 2019 Ghiorghiu Andrei
+ * @link      https://github.com/Andr3y9603/Place-Details
+ * @package   PlaceDetails
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ags\\placedetails\\assetbundles\\placedetails\\PlaceDetailsAsset") %}
+
+{{ forms.textField({
+    label: 'API Key',
+    instructions: "Your application's API key. This key identifies your application for purposes of quota management. See Get a key for more information.",
+    id: 'apiKey',
+    name: 'apiKey',
+    value: settings['apiKey']})
+}}
+
+{{ forms.textField({
+    label: 'Place Id',
+    instructions: "A textual identifier that uniquely identifies a place, returned from a Place Search. For more information about place IDs, see the place ID overview.",
+    id: 'placeId',
+    name: 'placeId',
+    value: settings['placeId']})
+}}
+
+<div class="field" id="settings-placeId-field">
+    <div class="heading">
+        <label>Preview Opening Hours</label>
+        <p><pre>{{data|raw}}</pre></p>
+    </div>
+</div>

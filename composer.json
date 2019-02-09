@@ -1,0 +1,37 @@
+{
+    "name": "ags/place-details",
+    "description": "-",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": ["craft", "cms", "craftcms", "craft-plugin", "place details"],
+    "support": {
+        "docs": "https://github.com/Andr3y9603/place-details/blob/master/README.md",
+        "issues": "https://github.com/Andr3y9603/place-details/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ghiorghiu Andrei",
+            "homepage": "https://github.com/Andr3y9603/Place-Details"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ags\\placedetails\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Place Details",
+        "handle": "place-details",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/Andr3y9603/place-details/master/CHANGELOG.md",
+        "components": {
+            "placeDetails": "ags\\placedetails\\services\\PlaceDetails"
+        },
+        "class": "ags\\placedetails\\PlaceDetails"
+    }
+}
