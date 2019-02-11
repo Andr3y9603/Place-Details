@@ -39,6 +39,9 @@ class Settings extends Model {
 	 */
 	public $apiKey = '';
 	public $placeId = '';
+	public $placeProgramFormat = '%day%: %open% - %colose%';
+	public $format24 = false;
+	public $translations = '';
 
 	// Public Methods
 	// =========================================================================
@@ -55,7 +58,9 @@ class Settings extends Model {
 	 */
 	public function rules() {
 		return [
-			[['apiKey', 'placeId'], 'string'],
+			[['apiKey', 'placeId', 'placeProgramFormat'], 'string'],
+			['format24', 'boolean'],
+			// ['translations', 'array'],
 		];
 	}
 }

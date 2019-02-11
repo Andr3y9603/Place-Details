@@ -11,16 +11,18 @@
 namespace ags\placedetails;
 
 use ags\placedetails\models\Settings;
-use ags\placedetails\services\PlaceDetails as PlaceDetailsService;
+use ags\placedetails\services\PlaceDetailsService;
 use ags\placedetails\twigextensions\PlaceDetailsTwigExtension;
 use ags\placedetails\variables\PlaceDetailsVariable;
 use Craft;
 use craft\base\Plugin;
 use craft\events\PluginEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\events\TemplateEvent;
 use craft\services\Plugins;
 use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
+use craft\web\View;
 use yii\base\Event;
 
 /**
@@ -81,6 +83,19 @@ class PlaceDetails extends Plugin {
 		parent::init();
 		self::$plugin = $this;
 
+		$pluginOptions = $this->getSettings();
+		$placeDetails = Craft::$app->getSession()->get('google_places_data');
+
+		if (!$placeDetails) {
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/place/details/json?key=' . $pluginOptions->apiKey . '&placeid=' . $pluginOptions->placeId);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$output = json_decode(curl_exec($ch));
+			curl_close($ch);
+
+			Craft::$app->getSession()->set('google_places_data', $output->result);
+		}
+
 		// Add in our Twig extensions
 		Craft::$app->view->registerTwigExtension(new PlaceDetailsTwigExtension());
 
@@ -124,24 +139,18 @@ class PlaceDetails extends Plugin {
 			}
 		);
 
-/**
- * Logging in Craft involves using one of the following methods:
- *
- * Craft::trace(): record a message to trace how a piece of code runs. This is mainly for development use.
- * Craft::info(): record a message that conveys some useful information.
- * Craft::warning(): record a warning message that indicates something unexpected has happened.
- * Craft::error(): record a fatal error that should be investigated as soon as possible.
- *
- * Unless `devMode` is on, only Craft::warning() & Craft::error() will log to `craft/storage/logs/web.log`
- *
- * It's recommended that you pass in the magic constant `__METHOD__` as the second parameter, which sets
- * the category to the method (prefixed with the fully qualified class name) where the constant appears.
- *
- * To enable the Yii debug toolbar, go to your user account in the AdminCP and check the
- * [] Show the debug toolbar on the front end & [] Show the debug toolbar on the Control Panel
- *
- * http://www.yiiframework.com/doc-2.0/guide-runtime-logging.html
- */
+		Event::on(
+			View::class,
+			View::EVENT_BEFORE_RENDER_TEMPLATE,
+			function (TemplateEvent $event) {
+				$templateSettings = PlaceDetailsService::instance()->getTemplateSettings();
+
+				$event->variables += [
+					'placeDetails' => $templateSettings,
+				];
+			}
+		);
+
 		Craft::info(
 			Craft::t(
 				'place-details',
@@ -170,21 +179,13 @@ class PlaceDetails extends Plugin {
 	 *
 	 * @return string The rendered settings HTML
 	 */
-	protected function settingsHtml(): string{
-		$pluginOptions = $this->getSettings();
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/place/details/json?key=' . $pluginOptions->apiKey . '&placeid=' . $pluginOptions->placeId);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$output = json_decode(curl_exec($ch));
-		curl_close($ch);
-
-		$weekdays = $output->result->opening_hours->weekday_text;
+	protected function settingsHtml(): string {
 
 		return Craft::$app->view->renderTemplate(
 			'place-details/settings',
 			[
+				'translations' => $this->settings->translations,
 				'settings' => $this->getSettings(),
-				'data' => implode('<br>', $weekdays),
 			]
 		);
 	}

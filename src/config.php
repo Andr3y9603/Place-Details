@@ -27,5 +27,7 @@ return [
 	// This controls blah blah blah
 	"apiKey" => true,
 	"placeId" => true,
-
+	"placeProgramFormat" => true,
+	"format24" => true,
+	"translations" => true,
 ];

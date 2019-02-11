@@ -30,7 +30,7 @@
         "hasCpSection": false,
         "changelogUrl": "https://raw.githubusercontent.com/Andr3y9603/place-details/master/CHANGELOG.md",
         "components": {
-            "placeDetails": "ags\\placedetails\\services\\PlaceDetails"
+            "placeDetails": "ags\\placedetails\\services\\PlaceDetailsService"
         },
         "class": "ags\\placedetails\\PlaceDetails"
     }

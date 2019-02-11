@@ -33,9 +33,51 @@
     value: settings['placeId']})
 }}
 
+{{ forms.textField({
+    label: 'Format',
+    instructions: "Program Line Format",
+    id: 'placeProgramFormat',
+    name: 'placeProgramFormat',
+    value: settings['placeProgramFormat']})
+}}
+
+{{ forms.checkboxField({
+    label: 'Format 24h',
+    instructions: "",
+    id: 'format24',
+    name: 'format24',
+    checked: settings['format24']})
+}}
+
+<table>
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Translate</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for day, dayTranslate in translations %}
+        <tr>
+            <td>{{day}}</td>
+            <td>
+                {{ forms.textField({
+                    id: 'translations' ~ day,
+                    name: 'translations['~day~']',
+                    value: settings['translations'][day]})
+                }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
 <div class="field" id="settings-placeId-field">
     <div class="heading">
-        <label>Preview Opening Hours</label>
-        <p><pre>{{data|raw}}</pre></p>
+        <p><label>Preview Opening Hours</label></p>
+        {% for data in placeDetails.opening_hours %}
+        <div>{{data}}</div>
+        {% endfor %}
     </div>
 </div>
