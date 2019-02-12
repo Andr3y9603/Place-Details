@@ -48,36 +48,50 @@
     name: 'format24',
     checked: settings['format24']})
 }}
-
-<table>
-    <thead>
-        <tr>
-            <th>Day</th>
-            <th>Translate</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for day, dayTranslate in translations %}
-        <tr>
-            <td>{{day}}</td>
-            <td>
-                {{ forms.textField({
-                    id: 'translations' ~ day,
-                    name: 'translations['~day~']',
-                    value: settings['translations'][day]})
-                }}
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-
-<div class="field" id="settings-placeId-field">
-    <div class="heading">
-        <p><label>Preview Opening Hours</label></p>
-        {% for data in placeDetails.opening_hours %}
-        <div>{{data}}</div>
+<div class="field">
+    <p class="heading"><label>Translations</label></p>
+    <table class="shadow-box editable">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Translate</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for day, dayTranslate in translations %}
+            <tr>
+                <td>{{day}}</td>
+                <td>
+                    {{ forms.textField({
+                        id: 'translations' ~ day,
+                        name: 'translations['~day~']',
+                        value: settings['translations'][day]})
+                    }}
+                </td>
+            </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="field fullwidth">
+    <p class="heading"><label>Global Vars</label></p>
+    <span>placeDetails [</span>
+    {% for key, variable in placeDetails %}
+        <span>{{key}}</span>
+        {% if key != 'opening_hours' %}
+        |
+        {% endif %}
+    {% endfor %}
+    ]
+</div>
+
+<div class="field fullwidth">
+    <p class="heading"><label>Preview Opening Hours</label></p>
+    <div><span class="pd-bold">Open now</span>: {{placeDetails.open_now}}</div>
+    {% for data in placeDetails.opening_hours %}
+    <div>{{data|raw}}</div>
+    {% endfor %}
 </div>

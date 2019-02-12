@@ -9,3 +9,6 @@
  * @package   PlaceDetails
  * @since     1.0.0
  */
+.block {
+    display: block;
+}

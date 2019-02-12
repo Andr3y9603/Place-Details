@@ -117,7 +117,6 @@ class PlaceDetailsService extends Component {
 		}, ARRAY_FILTER_USE_BOTH);
 
 		$sublocality = $sublocality[key($sublocality)];
-
 		return [
 			'city' => $city->long_name,
 			'sublocality' => $city->long_name,
@@ -125,6 +124,7 @@ class PlaceDetailsService extends Component {
 			'foramtted_address' => $placeDetails->formatted_address,
 			'phone' => $placeDetails->formatted_phone_number,
 			'postal_code' => $postal_code->long_name,
+			'open_now' => intval($placeDetails->opening_hours->open_now) === 1 ? 'yes' : 'no',
 			'opening_hours' => $output,
 		];
 	}
