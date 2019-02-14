@@ -93,7 +93,9 @@ class PlaceDetailsService extends Component {
 				}
 			}
 		}
-
+		// echo "<pre>";
+		// print_r($placeDetails);
+		// echo '</pre>';
 		$city = array_filter($placeDetails->address_components, function ($address, $key) {
 			return array_search('locality', $address->types) !== false;
 		}, ARRAY_FILTER_USE_BOTH);

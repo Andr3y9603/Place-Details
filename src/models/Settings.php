@@ -39,7 +39,7 @@ class Settings extends Model {
 	 */
 	public $apiKey = '';
 	public $placeId = '';
-	public $placeProgramFormat = '%day%: %open% - %colose%';
+	public $placeProgramFormat = '%day%: %open% - %close%';
 	public $format24 = false;
 	public $translations = '';
 

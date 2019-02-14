@@ -12,15 +12,14 @@ namespace ags\placedetails;
 
 use ags\placedetails\models\Settings;
 use ags\placedetails\services\PlaceDetailsService;
-use ags\placedetails\twigextensions\PlaceDetailsTwigExtension;
-use ags\placedetails\variables\PlaceDetailsVariable;
+// use ags\placedetails\twigextensions\PlaceDetailsTwigExtension;
+// use ags\placedetails\variables\PlaceDetailsVariable;
 use Craft;
 use craft\base\Plugin;
 use craft\events\PluginEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\TemplateEvent;
 use craft\services\Plugins;
-use craft\web\twig\variables\CraftVariable;
 use craft\web\UrlManager;
 use craft\web\View;
 use yii\base\Event;
@@ -92,12 +91,8 @@ class PlaceDetails extends Plugin {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			$output = json_decode(curl_exec($ch));
 			curl_close($ch);
-
 			Craft::$app->getSession()->set('google_places_data', $output->result);
 		}
-
-		// Add in our Twig extensions
-		Craft::$app->view->registerTwigExtension(new PlaceDetailsTwigExtension());
 
 		// Register our site routes
 		Event::on(
@@ -114,17 +109,6 @@ class PlaceDetails extends Plugin {
 			UrlManager::EVENT_REGISTER_CP_URL_RULES,
 			function (RegisterUrlRulesEvent $event) {
 				$event->rules['cpActionTrigger1'] = 'place-details/place-details/do-something';
-			}
-		);
-
-		// Register our variables
-		Event::on(
-			CraftVariable::class,
-			CraftVariable::EVENT_INIT,
-			function (Event $event) {
-				/** @var CraftVariable $variable */
-				$variable = $event->sender;
-				$variable->set('placeDetails', PlaceDetailsVariable::class);
 			}
 		);
 
