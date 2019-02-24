@@ -64,18 +64,9 @@ class PlaceDetails extends Plugin {
 	 */
 	public $schemaVersion = '1.0.0';
 
-	// Public Methods
-	// =========================================================================
-
 	/**
 	 * Set our $plugin static property to this class so that it can be accessed via
 	 * PlaceDetails::$plugin
-	 *
-	 * Called after the plugin class is instantiated; do any one-time initialization
-	 * here such as hooks and events.
-	 *
-	 * If you have a '/vendor/autoload.php' file, it will be loaded for you automatically;
-	 * you do not need to load it in your init() method.
 	 *
 	 */
 	public function init() {
@@ -146,9 +137,6 @@ class PlaceDetails extends Plugin {
 			__METHOD__
 		);
 	}
-
-	// Protected Methods
-	// =========================================================================
 
 	/**
 	 * Creates and returns the model used to store the plugin’s settings.

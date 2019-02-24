@@ -17,10 +17,6 @@ use craft\base\Component;
 /**
  * PlaceDetailsService Service
  *
- * All of your plugin’s business logic should go in services, including saving data,
- * retrieving data, etc. They provide APIs that your controllers, template variables,
- * and other plugins can interact with.
- *
  * https://craftcms.com/docs/plugins/services
  *
  * @author    Ghiorghiu Andrei
@@ -95,9 +91,7 @@ class PlaceDetailsService extends Component {
 				}
 			}
 		}
-		// echo "<pre>";
-		// print_r($placeDetails);
-		// echo '</pre>';
+
 		$city = array_filter($placeDetails->address_components, function ($address, $key) {
 			return array_search('locality', $address->types) !== false;
 		}, ARRAY_FILTER_USE_BOTH);
