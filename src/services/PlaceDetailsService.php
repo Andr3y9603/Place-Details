@@ -44,7 +44,9 @@ class PlaceDetailsService extends Component {
 	public function getTemplateSettings() {
 
 		$placeDetails = Craft::$app->getSession()->get('google_places_data');
-
+		if (empty($placeDetails)) {
+			return false;
+		}
 		$weekdays = $placeDetails->opening_hours->weekday_text;
 
 		$output = [];

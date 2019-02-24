@@ -91,7 +91,9 @@ class PlaceDetails extends Plugin {
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			$output = json_decode(curl_exec($ch));
 			curl_close($ch);
-			Craft::$app->getSession()->set('google_places_data', $output->result);
+			if (!empty($output) && empty($output->error_message)) {
+				Craft::$app->getSession()->set('google_places_data', $output->result);
+			}
 		}
 
 		// Register our site routes
@@ -164,7 +166,6 @@ class PlaceDetails extends Plugin {
 	 * @return string The rendered settings HTML
 	 */
 	protected function settingsHtml(): string {
-
 		return Craft::$app->view->renderTemplate(
 			'place-details/settings',
 			[
